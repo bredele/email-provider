@@ -4,8 +4,14 @@
   "description": "Return email provider for a given email address",
   "main": "dist/cjs/index.js",
   "exports": {
-    "import": "./dist/esm/src/index.js",
-    "require": "./dist/cjs/src/index.js"
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/esm/src/index.js"
+    },
+    "require": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/cjs/src/index.js"
+    }
   },
   "types": "dist/index.d.ts",
   "scripts": {

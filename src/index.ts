@@ -5,7 +5,7 @@ interface MXRecord {
   priority: number;
 }
 
-enum EMAIL_PROVIDER {
+export enum EMAIL_PROVIDER {
   GMAIL = "gmail",
   OUTLOOK = "outlook",
   YAHOO = "yahoo",
