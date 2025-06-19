@@ -22,7 +22,7 @@ await provider("hello@something-random.com");
 
 ## Providers
 
-This module supports the following provider:
+This module supports the following providers:
 
 - gmail
 - outlook
