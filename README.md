@@ -1,15 +1,6 @@
 # email-provider
 
 Return the email provider for a given email address.
-This module supports the following provider:
-
-- gmail
-- outlook
-- yahoo
-- zoho
-- protonmail
-- icloud
-- fastmail
 
 ## Installation
 
@@ -28,3 +19,15 @@ await provider("hello@gmail.com");
 await provider("hello@something-random.com");
 // => 'unknown
 ```
+
+## Providers
+
+This module supports the following provider:
+
+- gmail
+- outlook
+- yahoo
+- zoho
+- protonmail
+- icloud
+- fastmail
