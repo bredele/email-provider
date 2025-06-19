@@ -1,5 +1,5 @@
 {
-  "name": "email-provider",
+  "name": "@bredele/email-provider",
   "version": "1.0.0",
   "description": "Return email provider for a given email address",
   "main": "dist/cjs/index.js",
