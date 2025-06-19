@@ -11,7 +11,7 @@ $ npm install @bredele/email-provider
 ## Usage
 
 ```ts
-import provider from "email-provider";
+import provider from "@bredele/email-provider";
 
 await provider("hello@gmail.com");
 // => 'gmail'
