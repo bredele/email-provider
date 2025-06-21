@@ -1,8 +1,8 @@
 {
   "name": "@bredele/email-provider",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Return email provider for a given email address",
-  "main": "dist/cjs/index.js",
+  "main": "dist/cjs/src/index.js",
   "files": ["dist"],
   "exports": {
     "import": {
