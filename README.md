@@ -5,7 +5,7 @@ Return the email provider for a given email address.
 ## Installation
 
 ```sh
-$ npm install @bredele/email-provider
+npm install @bredele/email-provider
 ```
 
 ## Usage
