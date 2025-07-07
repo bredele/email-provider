@@ -1,4 +1,4 @@
-import { promises as dns } from "node:dns";
+import { promises as dns } from 'node:dns';
 
 interface MXRecord {
   exchange: string;
@@ -6,35 +6,35 @@ interface MXRecord {
 }
 
 export enum EMAIL_PROVIDER {
-  GMAIL = "gmail",
-  OUTLOOK = "outlook",
-  YAHOO = "yahoo",
-  ZOHO = "zoho",
-  PROTONMAIL = "protonmail",
-  ICLOUD = "icloud",
-  FASTMAIL = "fastmail",
-  UNKNOWN = "unknown",
+  GMAIL = 'gmail',
+  OUTLOOK = 'outlook',
+  YAHOO = 'yahoo',
+  ZOHO = 'zoho',
+  PROTONMAIL = 'protonmail',
+  ICLOUD = 'icloud',
+  FASTMAIL = 'fastmail',
+  UNKNOWN = 'unknown',
 }
 
 // Fast domain-based lookup for common providers
-const KNOWN_DOMAINS: Record<string, EMAIL_PROVIDER> = {
-  "gmail.com": EMAIL_PROVIDER.GMAIL,
-  "googlemail.com": EMAIL_PROVIDER.GMAIL,
-  "outlook.com": EMAIL_PROVIDER.OUTLOOK,
-  "hotmail.com": EMAIL_PROVIDER.OUTLOOK,
-  "live.com": EMAIL_PROVIDER.OUTLOOK,
-  "msn.com": EMAIL_PROVIDER.OUTLOOK,
-  "yahoo.com": EMAIL_PROVIDER.YAHOO,
-  "yahoo.co.uk": EMAIL_PROVIDER.YAHOO,
-  "yahoo.fr": EMAIL_PROVIDER.YAHOO,
-  "zoho.com": EMAIL_PROVIDER.ZOHO,
-  "protonmail.com": EMAIL_PROVIDER.PROTONMAIL,
-  "proton.me": EMAIL_PROVIDER.PROTONMAIL,
-  "icloud.com": EMAIL_PROVIDER.ICLOUD,
-  "me.com": EMAIL_PROVIDER.ICLOUD,
-  "mac.com": EMAIL_PROVIDER.ICLOUD,
-  "fastmail.com": EMAIL_PROVIDER.FASTMAIL,
-  "fastmail.fm": EMAIL_PROVIDER.FASTMAIL,
+export const KNOWN_DOMAINS: Record<string, EMAIL_PROVIDER> = {
+  'gmail.com': EMAIL_PROVIDER.GMAIL,
+  'googlemail.com': EMAIL_PROVIDER.GMAIL,
+  'outlook.com': EMAIL_PROVIDER.OUTLOOK,
+  'hotmail.com': EMAIL_PROVIDER.OUTLOOK,
+  'live.com': EMAIL_PROVIDER.OUTLOOK,
+  'msn.com': EMAIL_PROVIDER.OUTLOOK,
+  'yahoo.com': EMAIL_PROVIDER.YAHOO,
+  'yahoo.co.uk': EMAIL_PROVIDER.YAHOO,
+  'yahoo.fr': EMAIL_PROVIDER.YAHOO,
+  'zoho.com': EMAIL_PROVIDER.ZOHO,
+  'protonmail.com': EMAIL_PROVIDER.PROTONMAIL,
+  'proton.me': EMAIL_PROVIDER.PROTONMAIL,
+  'icloud.com': EMAIL_PROVIDER.ICLOUD,
+  'me.com': EMAIL_PROVIDER.ICLOUD,
+  'mac.com': EMAIL_PROVIDER.ICLOUD,
+  'fastmail.com': EMAIL_PROVIDER.FASTMAIL,
+  'fastmail.fm': EMAIL_PROVIDER.FASTMAIL,
 };
 
 // Provider keywords for flexible MX record detection
@@ -43,19 +43,19 @@ const PROVIDER_KEYWORDS: Array<{
   provider: EMAIL_PROVIDER;
 }> = [
   {
-    keywords: ["google", "gmail", "googlemail"],
+    keywords: ['google', 'gmail', 'googlemail'],
     provider: EMAIL_PROVIDER.GMAIL,
   },
   {
-    keywords: ["outlook", "hotmail", "live", "microsoft", "office365"],
+    keywords: ['outlook', 'hotmail', 'live', 'microsoft', 'office365'],
     provider: EMAIL_PROVIDER.OUTLOOK,
   },
-  { keywords: ["yahoo", "yahoodns"], provider: EMAIL_PROVIDER.YAHOO },
-  { keywords: ["zoho"], provider: EMAIL_PROVIDER.ZOHO },
-  { keywords: ["protonmail"], provider: EMAIL_PROVIDER.PROTONMAIL },
-  { keywords: ["icloud"], provider: EMAIL_PROVIDER.ICLOUD },
+  { keywords: ['yahoo', 'yahoodns'], provider: EMAIL_PROVIDER.YAHOO },
+  { keywords: ['zoho'], provider: EMAIL_PROVIDER.ZOHO },
+  { keywords: ['protonmail'], provider: EMAIL_PROVIDER.PROTONMAIL },
+  { keywords: ['icloud'], provider: EMAIL_PROVIDER.ICLOUD },
   {
-    keywords: ["messagingengine", "fastmail"],
+    keywords: ['messagingengine', 'fastmail'],
     provider: EMAIL_PROVIDER.FASTMAIL,
   },
 ];
@@ -65,8 +65,8 @@ const PROVIDER_KEYWORDS: Array<{
  */
 
 const getDomainFromEmail = (email: string): string => {
-  const parts = email.toLowerCase().trim().split("@");
-  return parts.length === 2 ? parts[1] : "";
+  const parts = email.toLowerCase().trim().split('@');
+  return parts.length === 2 ? parts[1] : '';
 };
 
 /**
@@ -113,7 +113,7 @@ const matchMXToProvider = (mxRecords: MXRecord[]): EMAIL_PROVIDER => {
  */
 
 export default async (email: string): Promise<EMAIL_PROVIDER> => {
-  if (!email || typeof email !== "string") {
+  if (!email || typeof email !== 'string') {
     return EMAIL_PROVIDER.UNKNOWN;
   }
 
