@@ -76,7 +76,10 @@ const getDomainFromEmail = (email: string): string => {
 const getMXRecords = async (domain: string): Promise<MXRecord[]> => {
   try {
     return await dns.resolveMx(domain);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.code === 'ENOTFOUND') {
+      throw error;
+    }
     return [];
   }
 };
@@ -113,14 +116,7 @@ const matchMXToProvider = (mxRecords: MXRecord[]): EMAIL_PROVIDER => {
  */
 
 export default async (email: string): Promise<EMAIL_PROVIDER> => {
-  if (!email || typeof email !== 'string') {
-    return EMAIL_PROVIDER.UNKNOWN;
-  }
-
   const domain = getDomainFromEmail(email);
-  if (!domain) {
-    return EMAIL_PROVIDER.UNKNOWN;
-  }
 
   // Fast path: check known domains first
   if (KNOWN_DOMAINS[domain]) {
@@ -128,14 +124,10 @@ export default async (email: string): Promise<EMAIL_PROVIDER> => {
   }
 
   // Fallback: MX record lookup for custom domains
-  try {
-    const mxRecords = await getMXRecords(domain);
-    if (mxRecords.length === 0) {
-      return EMAIL_PROVIDER.UNKNOWN;
-    }
-
-    return matchMXToProvider(mxRecords);
-  } catch (error) {
+  const mxRecords = await getMXRecords(domain);
+  if (mxRecords.length === 0) {
     return EMAIL_PROVIDER.UNKNOWN;
   }
+
+  return matchMXToProvider(mxRecords);
 };

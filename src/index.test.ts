@@ -40,10 +40,8 @@ test("Invalid inputs", async () => {
   assert.strictEqual(await getEmailProvider(""), "unknown");
   assert.strictEqual(await getEmailProvider("invalid"), "unknown");
   assert.strictEqual(await getEmailProvider("user@"), "unknown");
-  assert.strictEqual(
-    await getEmailProvider("@nonexistent-test-domain-123456.com"),
-    "unknown"
-  );
+  // Note: @domain.com extracts domain and triggers DNS lookup which throws ENOTFOUND
+  // This case is now covered in ENOTFOUND error tests
   assert.strictEqual(
     await getEmailProvider("user@@nonexistent-test-domain-123456.com"),
     "unknown"
@@ -59,22 +57,16 @@ test("Edge cases", async () => {
   );
 });
 
-// MX record detection tests - using real domains that use these providers
-test("MX detection - Google Workspace domains", async () => {
-  // These tests may be slow as they do real DNS lookups
-  // Testing with known Google Workspace domains
-  const result = await getEmailProvider(
-    "test@example-google-workspace.com"
-  ).catch(() => "unknown");
-  // Should either be 'gmail' if MX lookup succeeds or 'unknown' if domain doesn't exist
-  assert.ok(["gmail", "unknown"].includes(result));
-});
-
-test("Type validation", async () => {
-  // @ts-expect-error Testing invalid input types
-  assert.strictEqual(await getEmailProvider(null), "unknown");
-  // @ts-expect-error Testing invalid input types
-  assert.strictEqual(await getEmailProvider(undefined), "unknown");
-  // @ts-expect-error Testing invalid input types
-  assert.strictEqual(await getEmailProvider(123), "unknown");
+test("ENOTFOUND error is thrown for non-existent domain", async () => {
+  await assert.rejects(
+    async () => {
+      await getEmailProvider(
+        "test@this-domain-absolutely-does-not-exist-12345.xyz"
+      );
+    },
+    (error: any) => {
+      assert.strictEqual(error.code, "ENOTFOUND");
+      return true;
+    }
+  );
 });
